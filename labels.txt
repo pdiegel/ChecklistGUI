@@ -1,0 +1,22 @@
+Save File
+General Notes
+Draw Lot
+Bearings
+Parcel (Lot / Block / PID)
+Easements
+R/W Lines
+Tie to Nearby R/W
+Save on Freeze Layer
+Import Ascii
+Rotate Ascii
+Label Lot Corners
+Bearing Reference Line
+Export Ascii
+Draw & Label Roads
+Building Dimensions
+Building Ties
+Topography
+Utilites
+Boundary Line Arrows & Water Waves
+Verify Drawing Scale
+Hatching
