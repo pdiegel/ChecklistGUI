@@ -67,9 +67,7 @@ dpg.setup_dearpygui()
 dpg.show_viewport()
 
 while dpg.is_dearpygui_running():
-    if not program_timer.paused:
-        program_timer.advance_time()
-
+    program_timer.advance_time()
     
     num_checked = get_num_checked()
     num_checked = len(num_checked)

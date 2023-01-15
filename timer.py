@@ -1,34 +1,37 @@
 import dearpygui.dearpygui as dpg
+from datetime import datetime, date, timedelta
+
 
 class Timer:
     def __init__(self, pause_tag, display_tag, time_type_tag):
         # time attributes is in seconds
         self.time = 0
-        self.time_minutes = 0
-        self.time_hours = 0
         self.started = False
         self.paused = True  
         self.pause_tag = pause_tag
         self.display_tag = display_tag
         self.time_type = time_type_tag
+        self.elapsed_pause = timedelta(0)
     
     def advance_time(self):
+        if self.paused:
+            return
         # The dearpygui render loop runs at 60 fps
-        self.time += 1/60
-        self.time_minutes = self.time/60
-        self.time_hours = self.time_minutes/60
+        self.time = datetime.now() - self.start_time - self.elapsed_pause
+
     
     def reset_timer(self):
         self.time = 0
-        self.time_minutes = 0
-        self.time_hours = 0
         self.started = False
+        self.elapsed_pause = 0
     
     def resume_timer(self):
         self.paused = False
+        self.elapsed_pause += datetime.now() - self.time_paused
 
     def pause_timer(self):
         self.paused = True
+        self.time_paused = datetime.now()
     
     def pause_resume_timer(self, sender):
         if not self.started:
@@ -41,18 +44,11 @@ class Timer:
             self.pause_timer()
 
     def display_time(self, sender):
-        if self.time_hours >= 1:
-            output = self.time_hours
-            format = 'Hours'
-        elif self.time_minutes >= 1:
-            output = self.time_minutes
-            format = 'Minutes'
-        else:
-            output = self.time
-            format = 'Seconds'
+        output = self.time
+        format = 'Seconds'
         
         dpg.set_value(sender, format)
-        return "{:.2f}".format(output)
+        return f"{str(output)}"
 
     def set_button_label(self, sender):
         if self.paused or self.time == 0:
@@ -64,7 +60,8 @@ class Timer:
     def start_timer(self):
         if not self.started:
             self.started = True
-            self.resume_timer()
+            self.start_time = datetime.now()
+            self.paused = False
 
     def stop_timer(self):
         if not self.started:
