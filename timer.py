@@ -5,7 +5,7 @@ from datetime import datetime, date, timedelta
 class Timer:
     def __init__(self, pause_tag, display_tag, time_type_tag):
         # time attributes is in seconds
-        self.time = 0
+        self.time = "0"
         self.started = False
         self.paused = True  
         self.pause_tag = pause_tag
@@ -21,9 +21,9 @@ class Timer:
 
     
     def reset_timer(self):
-        self.time = 0
+        self.time = "0"
         self.started = False
-        self.elapsed_pause = 0
+        self.elapsed_pause = timedelta(0)
     
     def resume_timer(self):
         self.paused = False
@@ -44,11 +44,26 @@ class Timer:
             self.pause_timer()
 
     def display_time(self, sender):
-        output = self.time
+        #hours = self.time.strftime('%H')
+        string_time = str(self.time)
         format = 'Seconds'
+        if string_time != '0':
+            seconds = float(string_time.split(':')[2])
+            minutes = float(string_time.split(':')[1]) + (seconds/60)
+            hours = float(string_time.split(':')[0]) + (minutes/60)
+            output = seconds
+            if minutes >= 1:
+                if hours >= 1:
+                    format = 'Hours'
+                    output = hours
+                else:
+                    format = 'Minutes'
+                    output = minutes
+        else:
+            output = 0
         
         dpg.set_value(sender, format)
-        return f"{str(output)}"
+        return "{:.2f}".format(output)
 
     def set_button_label(self, sender):
         if self.paused or self.time == 0:
