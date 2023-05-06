@@ -6,13 +6,13 @@ This is a simple checklist application written in Python using the dearpygui lib
 
 To run the application, you'll need to have Python 3 and the dearpygui library installed on your computer. You can install the library using pip:
 
-```
+```python
 pip install dearpygui
 ```
 
 Once you have the library installed, you can run the application by executing the `main.py` file:
 
-```
+```python
 python main.py
 ```
 
